@@ -1,17 +1,30 @@
 const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 
+const getAll = async (req, res) => {
+  try {
+    const users = await User.find();
+    return res.json(users);
+  } catch (error) {
+    res.status(400).json({ err: error });
+  }
+};
+
 const registerUser = async (req, res) => {
   try {
     const user = await User.create(req.body);
-    const userToken = jwt.sign({
-        id: user._id
-    }, process.env.SECRET_KEY);
+    const userToken = jwt.sign(
+      {
+        id: user._id,
+      },
+      process.env.SECRET_KEY
+    );
 
-    return res.cookie('usertoken', userToken, secret, 
-    {
-        httpOnly: true
-    }).json({ message: "success", user: user });
+    return res
+      .cookie("usertoken", userToken, secret, {
+        httpOnly: true,
+      })
+      .json({ message: "success", user: user });
   } catch (error) {
     res.status(500).json({ error: error });
   }
@@ -42,12 +55,13 @@ const loginUser = async (req, res) => {
 };
 
 const logout = (req, res) => {
-    res.clearCookie('usertoken');
-    res.sendStatus(200);
-}
+  res.clearCookie("usertoken");
+  res.sendStatus(200);
+};
 
 module.exports = {
+  getAll,
   registerUser,
   loginUser,
-  logout
+  logout,
 };
