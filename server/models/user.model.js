@@ -33,5 +33,5 @@ UserSchema.pre("validate", (next) => {
 
 UserSchema.pre('save', async (next) => {
   this.password = await bcrypt.hash(this.password, 7);
-  next()
+  next();
 })
