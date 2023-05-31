@@ -63,7 +63,7 @@ const loginUser = async (req, res) => {
 
 const logout = (req, res) => {
   res.clearCookie("usertoken");
-  res.sendStatus(200);
+  res.status(200).json({ msg: 'user logged out'});
 };
 
 module.exports = {
