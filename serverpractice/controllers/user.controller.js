@@ -54,13 +54,20 @@ const loginUser = async (req, res) => {
     res
       .cookie("token", token, { httpOnly: true })
       .json({ message: "logged in" });
+
   } catch (error) {
     res.status(400).json({ error: error })
   }
 };
 
+const logout = (req, res) => {
+    res.clearCookie("usertoken");
+    res.status(200).json({ msg: 'user logged out'});
+  };
+
 module.exports = {
   getAllUsers,
   createUser,
-  loginUser
+  loginUser,
+  logout
 };
