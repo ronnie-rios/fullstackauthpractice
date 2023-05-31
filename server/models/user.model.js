@@ -16,13 +16,10 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const User = mongoose.model("User", UserSchema);
-
-module.exports = User;
 
 UserSchema.virtual("confirmPassword")
-  .get(() => this._confirmPassword)
-  .set((value) => (this._confirmPassword = value));
+.get(() => this._confirmPassword)
+.set((value) => (this._confirmPassword = value));
 
 UserSchema.pre("validate", (next) => {
   if (this.password !== this.confirmPassword) {
@@ -30,8 +27,25 @@ UserSchema.pre("validate", (next) => {
   }
   next();
 });
-
-UserSchema.pre('save', async (next) => {
-  this.password = await bcrypt.hash(this.password, 7);
+//forgot the return with the arrow func
+UserSchema.pre('save', async function(next) {
+  this.password = await bcrypt.hash(this.password, 7); //returns a promise that is the
   next();
 })
+// this scope acts weird with arrow functions so its not pointing to the user.pw, don't use an arrow
+// UserSchema.pre('save', async (next) => {
+//   UserSchema.password = await bcrypt.hash(UserSchema.password, 7); //returns a promise that is the
+//   next();
+// })
+
+// UserSchema.pre('save', function(next) {
+//   bcrypt.hash(this.password, 7)
+//     .then(hash => {
+//       this.password = hash;
+//       next();
+//     });
+// });
+
+const User = mongoose.model("User", UserSchema);
+
+module.exports = User;
