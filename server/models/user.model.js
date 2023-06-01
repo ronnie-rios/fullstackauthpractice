@@ -13,10 +13,10 @@ const UserSchema = new mongoose.Schema(
       required: [true, "Password is required"],
       minlength: [5, "Password must be 5 characters or longer"],
     },
-    notes: {
+    notes: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Note'
-    }
+    }]
   },
   { timestamps: true }
 );
