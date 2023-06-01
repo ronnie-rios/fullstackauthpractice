@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt=require('bcrypt');
 
+
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -10,7 +11,8 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: [true,'a username is required'],
         minLength: [5, 'pw must be 5 chars or longer']
-    }
+    },
+    
 });
 
 
