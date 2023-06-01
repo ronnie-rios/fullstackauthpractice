@@ -7,6 +7,8 @@ const { authenticate } = require('../config/jwt.config');
 const userRoutes = express.Router();
 
 userRoutes.post('/register', UserController.createUser);
-userRoutes.get('/login', UserController.loginUser);
+userRoutes.post('/login', UserController.loginUser);
 userRoutes.get('/', authenticate, UserController.getAllUsers);
-userRoutes.delete('/logout',)
+userRoutes.delete('/logout', UserController.logout)
+
+module.exports = { userRoutes }
