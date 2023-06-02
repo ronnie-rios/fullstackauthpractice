@@ -27,15 +27,15 @@ const registerUser = async (req, res) => {
       })
       .json({ message: "success", user: user });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: error });
+   
+    res.status(500).json({ error: error.message });
   }
 };
 
 const loginUser = async (req, res) => {
   try {
     const user = await User.findOne({ username: req.body.username });
-    console.log(user);
+    
     if (user === null) {
       return res.sendStatus(400);
     }
@@ -57,7 +57,7 @@ const loginUser = async (req, res) => {
       .cookie("usertoken", userToken, { httpOnly: true })
       .json({ msg: "success" });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ error: error.message })
   }
 };
 
