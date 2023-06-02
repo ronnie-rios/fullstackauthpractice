@@ -7,9 +7,18 @@ const getAll = async (req, res) => {
     const users = await User.find();
     return res.json(users);
   } catch (error) {
-    res.status(400).json({ err: error });
+    res.status(400).json({ err: error.message });
   }
 };
+
+const getOneUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).populate('notes')
+    return user ? res.json(user) : res.status(404).json({ message: 'User not found'});
+  } catch (error) {
+    res.status(500).json({ error: error })
+  }
+}
 
 const registerUser = async (req, res) => {
   try {
@@ -68,6 +77,7 @@ const logout = (req, res) => {
 
 module.exports = {
   getAll,
+  getOneUser,
   registerUser,
   loginUser,
   logout,
